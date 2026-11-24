@@ -3,7 +3,7 @@
  */
 import * as C from "./convert.js";
 
-const REPO_URL = "https://github.com/"; // 部署后替换为实际仓库地址
+const REPO_URL = "https://github.com/Jeephan/docshift";
 
 const $ = (id) => document.getElementById(id);
 
