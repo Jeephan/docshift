@@ -4,7 +4,8 @@
 
 没有后端、没有登录、没有上传队列 —— 文件从你的硬盘进内存，转换完直接下载，全程不会离开这台电脑。
 
-**在线使用：<https://docshift.pages.dev>** · 仓库：<https://github.com/Jeephan/docshift>
+**在线使用：<https://docshift.hjpgrbj.eu.org>**（备用地址 <https://docshift.pages.dev>）
+GitHub 仓库：<https://github.com/Jeephan/docshift>
 
 ![DocShift 首页](docs/screenshot.png)
 
