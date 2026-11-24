@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DocShift · 文档格式转换台（本地运行，文件不上传）</title>
+<meta name="description" content="免费的在线文档格式转换工具：Word(.docx) 转 HTML / Markdown / 纯文本，Markdown 转 HTML / Word，HTML 转 Markdown，文本编码检测与修复。全部在浏览器本地完成，文件不上传服务器。">
+<meta name="theme-color" content="#4f46e5">
+<meta property="og:title" content="DocShift · 文档格式转换台">
+<meta property="og:description" content="Word、Markdown、HTML、纯文本互转，全部在浏览器本地完成，文件不上传。">
+<meta property="og:type" content="website">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="./">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h13l-3-3"/><path d="M20 16H7l3 3"/></svg>
+      </span>
+      <span class="brand-name">DocShift</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#tool">转换台</a>
+      <a href="#encoding">编码修复</a>
+      <a href="#matrix">支持格式</a>
+      <a href="#faq">常见问题</a>
+      <a class="nav-gh" id="ghLink" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero wrap">
+  <span class="pill">
+    <span class="dot"></span>
+    文件不上传 · 全程在浏览器本地运行
+  </span>
+  <h1>文档格式转换，<span class="grad">不离开你的电脑</span></h1>
+  <p class="lede">Word、Markdown、HTML、纯文本自由互转，附带乱码修复。打开网页就能用，不用注册、不用等队列，也不会有文件被存到别人的服务器上。</p>
+  <div class="hero-facts">
+    <div><strong>8</strong><span>种转换路径</span></div>
+    <div><strong>0</strong><span>次网络上传</span></div>
+    <div><strong>100%</strong><span>开源免费</span></div>
+  </div>
+</section>
+
+<section id="tool" class="wrap tool">
+  <div class="card panel panel-source">
+    <div class="panel-head">
+      <h2><span class="step">1</span>选择转换类型</h2>
+    </div>
+    <div class="conv-list" id="convList" role="radiogroup" aria-label="转换类型"></div>
+
+    <div class="panel-head mt">
+      <h2><span class="step">2</span>放入文件</h2>
+      <span class="hint" id="acceptHint"></span>
+    </div>
+
+    <div class="drop" id="drop" tabindex="0" role="button" aria-label="选择文件或拖拽文件到这里">
+      <input type="file" id="fileInput" hidden>
+      <div class="drop-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      </div>
+      <p class="drop-title">拖拽文件到这里，或 <span class="link">点击选择</span></p>
+      <p class="drop-sub" id="dropSub">支持 .docx，单个文件</p>
+    </div>
+
+    <div class="paste hidden" id="pasteWrap">
+      <div class="paste-head">
+        <span>或者直接粘贴内容</span>
+        <button class="mini" id="pasteClear">清空</button>
+      </div>
+      <textarea id="pasteArea" spellcheck="false" placeholder="把 Markdown / HTML / 纯文本粘贴到这里…"></textarea>
+    </div>
+
+    <div class="src-meta hidden" id="srcMeta"></div>
+
+    <div class="panel-actions">
+      <button class="btn-primary" id="convertBtn" disabled>
+        <span>开始转换</span>
+      </button>
+      <button class="btn-ghost hidden" id="clearBtn">清空</button>
+    </div>
+    <p class="err hidden" id="errBox"></p>
+  </div>
+
+  <div class="card panel panel-result">
+    <div class="panel-head">
+      <h2><span class="step">3</span>预览与导出</h2>
+      <div class="tabs hidden" id="tabs" role="tablist">
+        <button class="tab active" data-tab="preview" role="tab">预览</button>
+        <button class="tab" data-tab="source" role="tab">源码</button>
+      </div>
+    </div>
+
+    <div class="empty" id="empty">
+      <div class="empty-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+      </div>
+      <p>转换结果会显示在这里</p>
+      <span>支持标题、列表、表格、代码块与图片的预览</span>
+    </div>
+
+    <div class="result hidden" id="result">
+      <div class="res-meta" id="resMeta"></div>
+      <div class="warns hidden" id="warns"></div>
+      <div class="preview-wrap" id="previewBox"></div>
+      <div class="source-wrap hidden" id="sourceBox">
+        <pre id="sourcePre"></pre>
+      </div>
+      <div class="actions">
+        <button class="btn-primary" id="dlBtn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+          下载 <span id="dlLabel">文件</span>
+        </button>
+        <button class="btn-ghost" id="copyBtn">复制源码</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="encoding" class="wrap section">
+  <div class="section-head">
+    <h2>文本乱码修复</h2>
+    <p>从 Windows 记事本或 Excel 导出的 TXT / CSV 常是 GBK 编码，在 Mac 或网页里打开就是一片乱码。这里可以自动识别编码并转成 UTF-8。</p>
+  </div>
+  <div class="card enc-card">
+    <label class="enc-drop" id="encDrop" tabindex="0">
+      <input type="file" id="encInput" accept=".txt,.csv,.md,.json,.log,.srt" hidden>
+      <span class="enc-icon" aria-hidden="true">📄</span>
+      <span class="enc-text"><strong>选择一个文本文件</strong><br><small>.txt / .csv / .md / .json / .log，自动识别 UTF-8、GBK、UTF-16</small></span>
+    </label>
+    <div class="enc-out hidden" id="encOut">
+      <div class="enc-meta" id="encMeta"></div>
+      <pre class="enc-preview" id="encPreview"></pre>
+      <div class="actions">
+        <button class="btn-primary" id="encSave">另存为 UTF-8</button>
+        <button class="btn-ghost" id="encSaveBom">另存为 UTF-8 (BOM)</button>
+        <button class="btn-ghost" id="encCopy">复制文本</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="matrix" class="wrap section">
+  <div class="section-head">
+    <h2>支持哪些转换</h2>
+    <p>当前版本覆盖文档类格式。图片、PDF、音视频转换不在这个 Demo 范围内。</p>
+  </div>
+  <div class="table-wrap">
+    <table class="matrix">
+      <thead><tr><th>源格式</th><th>目标格式</th><th>保留内容</th><th>适用场景</th></tr></thead>
+      <tbody>
+        <tr><td>Word (.docx)</td><td>HTML</td><td>标题、列表、表格、图片、超链接</td><td>发布到网站、博客、公众号排版</td></tr>
+        <tr><td>Word (.docx)</td><td>Markdown</td><td>标题层级、列表、加粗斜体、代码、链接</td><td>迁到 Notion、Obsidian、GitHub Wiki</td></tr>
+        <tr><td>Word (.docx)</td><td>纯文本</td><td>仅正文文字</td><td>喂给翻译工具、做全文检索</td></tr>
+        <tr><td>Markdown (.md)</td><td>HTML</td><td>GFM 语法：表格、任务列表、代码高亮区块</td><td>生成可直接分发的单页 HTML</td></tr>
+        <tr><td>Markdown (.md)</td><td>Word (.docx)</td><td>标题、列表、表格、代码块、图片</td><td>交付给只收 Word 的同事或客户</td></tr>
+        <tr><td>Markdown (.md)</td><td>纯文本</td><td>仅正文文字</td><td>提取文案做校对</td></tr>
+        <tr><td>HTML (.html)</td><td>Markdown</td><td>标题、列表、表格、链接、图片地址</td><td>把网页或富文本回迁到 Markdown 文档</td></tr>
+        <tr><td>HTML (.html)</td><td>Word (.docx)</td><td>标题、段落、列表、表格</td><td>把网页内容整理成可编辑文档</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="faq" class="wrap section">
+  <div class="section-head"><h2>常见问题</h2></div>
+  <div class="faq">
+    <details>
+      <summary>文件真的不会被上传吗？</summary>
+      <p>不会。所有解析和转换都在你浏览器的 JavaScript 里完成，页面没有接收文件的服务端接口。断网状态下功能依然可用（首次加载完页面后）。文档里的图片会被转成内嵌的 base64，同样只存在于本机内存。</p>
+    </details>
+    <details>
+      <summary>Word 转出来的排版和原文一样吗？</summary>
+      <p>段落结构、标题层级、列表、表格、图片这些语义信息会保留，但页码、页眉页脚、分栏、文本框、艺术字、复杂公式这类版式信息不会。这是 .docx 转 HTML 的通用限制，导出前请对照预览确认。</p>
+    </details>
+    <details>
+      <summary>为什么 Markdown 转 Word 的排版比较朴素？</summary>
+      <p>生成的 .docx 使用标准样式（宋体/等线、11pt 正文、标题分级）。这样做的好处是 Word、WPS、Pages 都能正常打开和二次编辑，代价是不会复刻某个模板的视觉设计。</p>
+    </details>
+    <details>
+      <summary>大文件会不会卡住？</summary>
+      <p>10MB 以内的 .docx 通常在 1 秒内完成。特别大的文件（几十 MB 或含大量高清图片）会占用较多内存，浏览器可能会短暂无响应，建议先压缩图片再转换。</p>
+    </details>
+    <details>
+      <summary>能私有部署吗？</summary>
+      <p>可以。项目是 MIT 协议的纯静态站点，<code>npm run build</code> 之后把 <code>dist/</code> 目录丢到任意静态托管（Cloudflare Pages、GitHub Pages、Nginx、对象存储）都能跑，不需要服务器和数据库。</p>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <div>
+      <span class="brand-name">DocShift</span>
+      <span class="foot-note">· 纯前端文档转换工具 · MIT License</span>
+    </div>
+    <div class="foot-links">
+      <a id="ghLink2" href="#" target="_blank" rel="noopener">GitHub 仓库</a>
+      <span>构建于 mammoth · marked · turndown · docx</span>
+    </div>
+  </div>
+</footer>
+
+<script src="./app.js" type="module"></script>
+</body>
+</html>
